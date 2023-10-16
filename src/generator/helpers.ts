@@ -199,7 +199,7 @@ export const generateRelationInput = ({
       from: slash(
         `${getRelativePath(model.output.dto, modelToImportFrom.output.dto)}${
           path.sep
-        }${t.createDtoFilename(field.type)}`,
+        }${t.createDtoFilename(field.type)}.js`,
       ),
       destruct: [preAndPostfixedName],
     });
@@ -224,7 +224,7 @@ export const generateRelationInput = ({
       from: slash(
         `${getRelativePath(model.output.dto, modelToImportFrom.output.dto)}${
           path.sep
-        }${t.connectDtoFilename(field.type)}`,
+        }${t.connectDtoFilename(field.type)}.js`,
       ),
       destruct: [preAndPostfixedName],
     });
@@ -284,7 +284,7 @@ export const mergeImportStatements = (
 
   if (first.default && second.default) {
     throw new Error(
-      `Can not merge import statements; both statements have set the 'default' preoperty`,
+      `Can not merge import statements; both statements have set the 'default' property`,
     );
   }
 
