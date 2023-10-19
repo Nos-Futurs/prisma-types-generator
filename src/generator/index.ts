@@ -42,11 +42,11 @@ interface RunParam {
   definiteAssignmentAssertion: boolean;
 }
 
-export const run = ({
+export const run = async ({
   output,
   dmmf,
   ...options
-}: RunParam): WriteableFileSpecs[] => {
+}: RunParam): Promise<WriteableFileSpecs[]> => {
   const {
     exportRelationModifierClasses,
     outputToNestJsResourceStructure,
@@ -107,105 +107,107 @@ export const run = ({
       },
     }));
 
-  const modelFiles = filteredModels.map((model) => {
-    logger.info(`Processing Model ${model.name}`);
+  const modelFiles = await Promise.all(
+    filteredModels.map(async (model) => {
+      logger.info(`Processing Model ${model.name}`);
 
-    const modelParams = computeModelParams({
-      model,
-      allModels: filteredModels,
-      templateHelpers,
-    });
+      const modelParams = computeModelParams({
+        model,
+        allModels: filteredModels,
+        templateHelpers,
+      });
 
-    // generate connect-model.dto.ts
-    const connectDto = {
-      fileName: path.join(
-        model.output.dto,
-        templateHelpers.connectDtoFilename(model.name, true),
-      ),
-      content: prettierFormat(
-        generateConnectDto({
-          ...modelParams.connect,
-          templateHelpers,
-        }),
-        prettierOptions,
-      ),
-    };
+      // generate connect-model.dto.ts
+      const connectDto = {
+        fileName: path.join(
+          model.output.dto,
+          templateHelpers.connectDtoFilename(model.name, true),
+        ),
+        content: await prettierFormat(
+          generateConnectDto({
+            ...modelParams.connect,
+            templateHelpers,
+          }),
+          prettierOptions,
+        ),
+      };
 
-    // generate create-model.dto.ts
-    const createDto = {
-      fileName: path.join(
-        model.output.dto,
-        templateHelpers.createDtoFilename(model.name, true),
-      ),
-      content: prettierFormat(
-        generateCreateDto({
-          ...modelParams.create,
-          exportRelationModifierClasses,
-          templateHelpers,
-        }),
-        prettierOptions,
-      ),
-    };
-    // TODO generate create-model.struct.ts
+      // generate create-model.dto.ts
+      const createDto = {
+        fileName: path.join(
+          model.output.dto,
+          templateHelpers.createDtoFilename(model.name, true),
+        ),
+        content: await prettierFormat(
+          generateCreateDto({
+            ...modelParams.create,
+            exportRelationModifierClasses,
+            templateHelpers,
+          }),
+          prettierOptions,
+        ),
+      };
+      // TODO generate create-model.struct.ts
 
-    // generate update-model.dto.ts
-    const updateDto = {
-      fileName: path.join(
-        model.output.dto,
-        templateHelpers.updateDtoFilename(model.name, true),
-      ),
-      content: prettierFormat(
-        generateUpdateDto({
-          ...modelParams.update,
-          exportRelationModifierClasses,
-          templateHelpers,
-        }),
-        prettierOptions,
-      ),
-    };
-    // TODO generate update-model.struct.ts
+      // generate update-model.dto.ts
+      const updateDto = {
+        fileName: path.join(
+          model.output.dto,
+          templateHelpers.updateDtoFilename(model.name, true),
+        ),
+        content: await prettierFormat(
+          generateUpdateDto({
+            ...modelParams.update,
+            exportRelationModifierClasses,
+            templateHelpers,
+          }),
+          prettierOptions,
+        ),
+      };
+      // TODO generate update-model.struct.ts
 
-    // generate model.entity.ts
-    const entity = {
-      fileName: path.join(
-        model.output.entity,
-        templateHelpers.entityFilename(model.name, true),
-      ),
-      content: prettierFormat(
-        generateEntity({
-          ...modelParams.entity,
-          templateHelpers,
-        }),
-        prettierOptions,
-      ),
-    };
-    // TODO generate model.struct.ts
+      // generate model.entity.ts
+      const entity = {
+        fileName: path.join(
+          model.output.entity,
+          templateHelpers.entityFilename(model.name, true),
+        ),
+        content: await prettierFormat(
+          generateEntity({
+            ...modelParams.entity,
+            templateHelpers,
+          }),
+          prettierOptions,
+        ),
+      };
+      // TODO generate model.struct.ts
 
-    // generate model.dto.ts
-    const plainDto = {
-      fileName: path.join(
-        model.output.dto,
-        templateHelpers.plainDtoFilename(model.name, true),
-      ),
-      content: prettierFormat(
-        generatePlainDto({
-          ...modelParams.plain,
-          templateHelpers,
-        }),
-        prettierOptions,
-      ),
-    };
+      // generate model.dto.ts
+      const plainDto = {
+        fileName: path.join(
+          model.output.dto,
+          templateHelpers.plainDtoFilename(model.name, true),
+        ),
+        content: await prettierFormat(
+          generatePlainDto({
+            ...modelParams.plain,
+            templateHelpers,
+          }),
+          prettierOptions,
+        ),
+      };
 
-    const models = [];
+      const models = [];
 
-    if (!excludeConnectDto) models.push(connectDto);
-    if (!excludeCreateDto) models.push(createDto);
-    if (!excludeUpdateDto) models.push(updateDto);
-    if (!excludePlainDto) models.push(plainDto);
-    if (!excludeEntity) models.push(entity);
+      if (!excludeConnectDto) models.push(connectDto);
+      if (!excludeCreateDto) models.push(createDto);
+      if (!excludeUpdateDto) models.push(updateDto);
+      if (!excludePlainDto) models.push(plainDto);
+      if (!excludeEntity) models.push(entity);
 
-    return models;
-  });
+      return models;
+    }),
+  );
 
   return [...modelFiles].flat();
 };

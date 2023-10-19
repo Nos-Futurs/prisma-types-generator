@@ -21,14 +21,14 @@ export const stringToBoolean = (input: string, defaultValue = false) => {
   return defaultValue;
 };
 
-export const generate = (options: GeneratorOptions) => {
+export const generate = async (options: GeneratorOptions) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const output = parseEnvValue(options.generator.output!);
   const prettierOptions: Options | undefined =
-    resolveConfig.sync(output, { useCache: false }) ||
-    resolveConfig.sync(path.dirname(require.main?.filename || ''), {
+    (await resolveConfig(output, { useCache: false })) ||
+    (await resolveConfig(path.dirname(require.main?.filename || ''), {
       useCache: false,
-    }) ||
+    })) ||
     undefined;
 
   const {
@@ -139,7 +139,7 @@ export const generate = (options: GeneratorOptions) => {
     );
   }
 
-  const results = run({
+  const results = await run({
     output,
     dmmf: options.dmmf,
     exportRelationModifierClasses,
