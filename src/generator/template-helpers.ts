@@ -185,13 +185,18 @@ export const makeHelpers = ({
       '\n',
     )}`;
 
-  const fieldToEntityProp = (field: ParsedField) =>
-    `${decorateApiProperty(field)}${field.name}${
+  const fieldToEntityProp = (field: ParsedField, useInputTypes = false) =>
+    `${decorateApiProperty(field)}${decorateClassValidators(field)}${
+      field.name
+    }${
       !field.isRequired ? '?' : definiteAssignmentAssertion ? '!' : ''
-    }: ${fieldType(field)} ${when(field.isNullable, ' | null')};`;
+    }: ${fieldType(field, useInputTypes)} ${when(
+      field.isNullable,
+      ' | null',
+    )};`;
 
-  const fieldsToEntityProps = (fields: ParsedField[]) =>
-    `${each(fields, (field) => fieldToEntityProp(field), '\n')}`;
+  const fieldsToEntityProps = (fields: ParsedField[], useInputTypes = false) =>
+    `${each(fields, (field) => fieldToEntityProp(field, useInputTypes), '\n')}`;
 
   const apiExtraModels = (names: string[]) =>
     `@ApiExtraModels(${names.map(entityName)})`;

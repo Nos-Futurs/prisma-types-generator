@@ -15,6 +15,6 @@ ${t.importStatements(imports)}
 
 ${t.if(apiExtraModels.length, t.apiExtraModels(apiExtraModels))}
 export ${t.config.outputType} ${t.plainDtoName(model.name)} {
-  ${t.fieldsToEntityProps(fields)}
+  ${t.fieldsToEntityProps(fields, true)}
 }
 `;
