@@ -5,6 +5,7 @@ import { Options } from 'prettier';
 import { makeHelpers } from './template-helpers';
 import { computeModelParams } from './compute-model-params';
 import { generateConnectDto } from './generate-connect-dto';
+import { generateDisconnectDto } from './generate-disconnect-dto';
 import { generateCreateDto } from './generate-create-dto';
 import { generateUpdateDto } from './generate-update-dto';
 import { generateEntity } from './generate-entity';
@@ -23,6 +24,7 @@ interface RunParam {
   outputToNestJsResourceStructure: boolean;
   flatResourceStructure: boolean;
   connectDtoPrefix: string;
+  disconnectDtoPrefix: string;
   createDtoPrefix: string;
   updateDtoPrefix: string;
   dtoSuffix: string;
@@ -38,6 +40,7 @@ interface RunParam {
   excludeCreateDto: boolean;
   excludeUpdateDto: boolean;
   excludeConnectDto: boolean;
+  excludeDisconnectDto: boolean;
   prettierOptions?: Options;
   definiteAssignmentAssertion: boolean;
 }
@@ -57,6 +60,7 @@ export const run = async ({
     prismaClientImport,
     noDependencies,
     excludeConnectDto,
+    excludeDisconnectDto,
     excludeCreateDto,
     excludeEntity,
     excludeUpdateDto,
@@ -132,6 +136,21 @@ export const run = async ({
         ),
       };
 
+      // generate connect-model.dto.ts
+      const disconnectDto = {
+        fileName: path.join(
+          model.output.dto,
+          templateHelpers.disconnectDtoFilename(model.name, true),
+        ),
+        content: await prettierFormat(
+          generateDisconnectDto({
+            ...modelParams.disconnect,
+            templateHelpers,
+          }),
+          prettierOptions,
+        ),
+      };
+
       // generate create-model.dto.ts
       const createDto = {
         fileName: path.join(
@@ -200,6 +219,7 @@ export const run = async ({
       const models = [];
 
       if (!excludeConnectDto) models.push(connectDto);
+      if (!excludeDisconnectDto) models.push(disconnectDto);
       if (!excludeCreateDto) models.push(createDto);
       if (!excludeUpdateDto) models.push(updateDto);
       if (!excludePlainDto) models.push(plainDto);

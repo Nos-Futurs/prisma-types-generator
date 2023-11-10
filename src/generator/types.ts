@@ -58,6 +58,8 @@ export interface DtoParams {
 
 export type ConnectDtoParams = DtoParams;
 
+export type DisconnectDtoParams = DtoParams;
+
 export interface CreateDtoParams extends DtoParams {
   extraClasses: string[];
   apiExtraModels: string[];
@@ -78,6 +80,7 @@ export interface PlainDtoParams extends DtoParams {
 
 export interface ModelParams {
   connect: ConnectDtoParams;
+  disconnect: DisconnectDtoParams;
   create: CreateDtoParams;
   update: UpdateDtoParams;
   entity: EntityParams;

@@ -1,0 +1,14 @@
+# This a reversed .gitignore. We ignore everything and only add what we need.
+*
+
+# ------------------------------------ App ----------------------------------- #
+!prisma
+!src
+
+# ----------------------------------- PNPM ----------------------------------- #
+!.npmrc
+!package.json
+
+# -------------------------------- Typescript -------------------------------- #
+!tsconfig.json
+!tsconfig.build.json

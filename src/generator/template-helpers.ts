@@ -84,6 +84,7 @@ export const importStatements = (items: ImportStatementParams[]) =>
 
 interface MakeHelpersParam {
   connectDtoPrefix: string;
+  disconnectDtoPrefix: string;
   createDtoPrefix: string;
   updateDtoPrefix: string;
   dtoSuffix: string;
@@ -99,6 +100,7 @@ interface MakeHelpersParam {
 }
 export const makeHelpers = ({
   connectDtoPrefix,
+  disconnectDtoPrefix,
   createDtoPrefix,
   updateDtoPrefix,
   dtoSuffix,
@@ -129,6 +131,8 @@ export const makeHelpers = ({
     className(name, entityPrefix, entitySuffix);
   const connectDtoName = (name: string) =>
     className(name, connectDtoPrefix, dtoSuffix);
+  const disconnectDtoName = (name: string) =>
+    className(name, disconnectDtoPrefix, dtoSuffix);
   const createDtoName = (name: string) =>
     className(name, createDtoPrefix, dtoSuffix);
   const updateDtoName = (name: string) =>
@@ -137,6 +141,9 @@ export const makeHelpers = ({
 
   const connectDtoFilename = (name: string, withExtension = false) =>
     fileName(name, 'connect-', '.dto', withExtension);
+
+  const disconnectDtoFilename = (name: string, withExtension = false) =>
+    fileName(name, 'disconnect-', '.dto', withExtension);
 
   const createDtoFilename = (name: string, withExtension = false) =>
     fileName(name, 'create-', '.dto', withExtension);
@@ -204,6 +211,7 @@ export const makeHelpers = ({
   return {
     config: {
       connectDtoPrefix,
+      disconnectDtoPrefix,
       createDtoPrefix,
       updateDtoPrefix,
       dtoSuffix,
@@ -217,10 +225,12 @@ export const makeHelpers = ({
     apiExtraModels,
     entityName,
     connectDtoName,
+    disconnectDtoName,
     createDtoName,
     updateDtoName,
     plainDtoName,
     connectDtoFilename,
+    disconnectDtoFilename,
     createDtoFilename,
     updateDtoFilename,
     entityFilename,

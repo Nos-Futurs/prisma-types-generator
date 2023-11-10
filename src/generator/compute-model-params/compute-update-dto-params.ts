@@ -1,5 +1,6 @@
 import {
   DTO_RELATION_CAN_CONNECT_ON_UPDATE,
+  DTO_RELATION_CAN_DISCONNECT_ON_UPDATE,
   DTO_RELATION_CAN_CRAEATE_ON_UPDATE,
   DTO_RELATION_MODIFIERS_ON_UPDATE,
   DTO_UPDATE_OPTIONAL,
@@ -72,6 +73,7 @@ export const computeUpdateDtoParams = ({
         preAndSuffixClassName: templateHelpers.updateDtoName,
         canCreateAnnotation: DTO_RELATION_CAN_CRAEATE_ON_UPDATE,
         canConnectAnnotation: DTO_RELATION_CAN_CONNECT_ON_UPDATE,
+        canDisconnectAnnotation: DTO_RELATION_CAN_DISCONNECT_ON_UPDATE,
       });
 
       overrides.type = relationInputType.type;
