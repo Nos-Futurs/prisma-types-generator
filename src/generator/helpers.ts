@@ -168,6 +168,7 @@ interface GenerateRelationInputParam {
     | TemplateHelpers['updateDtoName'];
   canCreateAnnotation: RegExp;
   canConnectAnnotation: RegExp;
+  canDisconnectAnnotation?: RegExp;
 }
 export const generateRelationInput = ({
   field,
@@ -177,6 +178,7 @@ export const generateRelationInput = ({
   preAndSuffixClassName,
   canCreateAnnotation,
   canConnectAnnotation,
+  canDisconnectAnnotation,
 }: GenerateRelationInputParam) => {
   const relationInputClassProps: Array<Pick<ParsedField, 'name' | 'type'>> = [];
 
@@ -231,6 +233,34 @@ export const generateRelationInput = ({
 
     relationInputClassProps.push({
       name: 'connect',
+      type: preAndPostfixedName,
+    });
+  }
+
+  if (
+    canDisconnectAnnotation &&
+    isAnnotatedWith(field, canDisconnectAnnotation)
+  ) {
+    const preAndPostfixedName = t.disconnectDtoName(field.type);
+    apiExtraModels.push(preAndPostfixedName);
+    const modelToImportFrom = allModels.find(({ name }) => name === field.type);
+
+    if (!modelToImportFrom)
+      throw new Error(
+        `related model '${field.type}' for '${model.name}.${field.name}' not found`,
+      );
+
+    imports.push({
+      from: slash(
+        `${getRelativePath(model.output.dto, modelToImportFrom.output.dto)}${
+          path.sep
+        }${t.disconnectDtoFilename(field.type)}.js`,
+      ),
+      destruct: [preAndPostfixedName],
+    });
+
+    relationInputClassProps.push({
+      name: 'disconnect',
       type: preAndPostfixedName,
     });
   }

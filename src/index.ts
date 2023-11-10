@@ -33,6 +33,7 @@ export const generate = async (options: GeneratorOptions) => {
 
   const {
     connectDtoPrefix = 'Connect',
+    disconnectDtoPrefix = 'Disconnect',
     createDtoPrefix = 'Create',
     updateDtoPrefix = 'Update',
     dtoSuffix = 'Dto',
@@ -69,6 +70,11 @@ export const generate = async (options: GeneratorOptions) => {
   );
 
   const excludeConnectDto = stringToBoolean(
+    options.generator.config.excludeConnectDto,
+    false,
+  );
+
+  const excludeDisconnectDto = stringToBoolean(
     options.generator.config.excludeConnectDto,
     false,
   );
@@ -146,6 +152,7 @@ export const generate = async (options: GeneratorOptions) => {
     outputToNestJsResourceStructure,
     flatResourceStructure,
     connectDtoPrefix,
+    disconnectDtoPrefix,
     createDtoPrefix,
     updateDtoPrefix,
     dtoSuffix,
@@ -157,6 +164,7 @@ export const generate = async (options: GeneratorOptions) => {
     prismaClientImport,
     noDependencies,
     excludeConnectDto,
+    excludeDisconnectDto,
     excludeCreateDto,
     excludeEntity,
     excludeUpdateDto,

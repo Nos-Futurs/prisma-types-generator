@@ -6,6 +6,7 @@ import { computeEntityParams } from './compute-entity-params';
 import { computePlainDtoParams } from './compute-plain-dto-params';
 
 import type { Model, ModelParams } from '../types';
+import { computeDisconnectDtoParams } from './compute-disconnect-dto-params.js';
 
 interface ComputeModelParamsParam {
   model: Model;
@@ -19,6 +20,7 @@ export const computeModelParams = ({
 }: ComputeModelParamsParam): ModelParams => ({
   // TODO find out if model needs `ConnectDTO`
   connect: computeConnectDtoParams({ model, templateHelpers }),
+  disconnect: computeDisconnectDtoParams({ model, templateHelpers }),
   create: computeCreateDtoParams({
     model,
     allModels, // ? should this be `allModels: models` instead
