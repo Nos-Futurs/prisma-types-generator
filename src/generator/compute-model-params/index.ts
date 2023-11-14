@@ -10,7 +10,7 @@ import type { Model, ModelParams } from '../types';
 
 interface ComputeModelParamsParam {
   model: Model;
-  allModels: Model[]k
+  allModels: Model[];
   templateHelpers: TemplateHelpers;
 }
 export const computeModelParams = ({
