@@ -1,6 +1,6 @@
 {
   "name": "@nos-futurs/prisma-types-generator",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Generates DTO and Entity classes from Prisma Schema for NestJS",
   "license": "Apache-2.0",
   "author": "Yan Marinich & Nos Futurs",
