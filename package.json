@@ -37,7 +37,7 @@
     "url": "git+https://github.com/Nos-Futurs/prisma-types-generator.git"
   },
   "scripts": {
-    "build": "npm run clean && tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json",
     "clean": "rimraf src/@generated",
     "format": "prettier --write \"{src,test}/**/*.{js,ts}\"",
     "generate": "npm run clean && npx prisma generate && npm run format -- --loglevel error",
