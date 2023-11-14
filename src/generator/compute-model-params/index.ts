@@ -1,16 +1,16 @@
 import { TemplateHelpers } from '../template-helpers';
 import { computeConnectDtoParams } from './compute-connect-dto-params';
 import { computeCreateDtoParams } from './compute-create-dto-params';
+import { computeDisconnectDtoParams } from './compute-disconnect-dto-params';
 import { computeUpdateDtoParams } from './compute-update-dto-params';
 import { computeEntityParams } from './compute-entity-params';
 import { computePlainDtoParams } from './compute-plain-dto-params';
 
 import type { Model, ModelParams } from '../types';
-import { computeDisconnectDtoParams } from './compute-disconnect-dto-params.js';
 
 interface ComputeModelParamsParam {
   model: Model;
-  allModels: Model[];
+  allModels: Model[]k
   templateHelpers: TemplateHelpers;
 }
 export const computeModelParams = ({
