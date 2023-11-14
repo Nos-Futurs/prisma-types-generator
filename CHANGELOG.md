@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/Nos-Futurs/prisma-types-generator/compare/v1.4.0...v1.5.0) (2023-11-14)
+
+
+### Features
+
+* add build step to github actions ([b75de6e](https://github.com/Nos-Futurs/prisma-types-generator/commit/b75de6ec596329db8d94e6140b559afd4e828221))
+
 ## 1.4.0 (2023-11-14)
 
 
