@@ -30,7 +30,7 @@
   "main": "dist/index.js",
   "prepublish": "dts build --target node --format cjs --rollupTypes",
   "publishConfig": {
-    "access": "public"
+    "access": "private"
   },
   "repository": {
     "type": "git",
