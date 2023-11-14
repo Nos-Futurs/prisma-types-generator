@@ -1,0 +1,2 @@
+# This file is required since NPM will otherwise use the .gitignore to ignore files during publish, and it includes the dist folder which is required when publishing
+coverage

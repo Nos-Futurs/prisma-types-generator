@@ -29,7 +29,6 @@
   ],
   "main": "dist/index.js",
   "packageManager": "^npm@7.7.6",
-  "prepublish": "dts build --target node --format cjs --rollupTypes",
   "publishConfig": {
     "access": "private"
   },
