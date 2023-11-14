@@ -9,7 +9,8 @@ on:
     types: [created]
 
 jobs:
-  publish-npm:
+  build:
+    name: Build the project
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,6 +19,17 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm test
+      - run: npm build
+
+  publish-npm:
+    name: Publish on GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
       - run: npm publish --no-git-checks --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_NOS_FUTURS_TOKEN }}
