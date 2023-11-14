@@ -18,6 +18,6 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm test
-      - run: npm publish --no-git-checks --access public
+      - run: npm publish --no-git-checks --access restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_NOS_FUTURS_TOKEN }}
